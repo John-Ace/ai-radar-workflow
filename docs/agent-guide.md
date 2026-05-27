@@ -31,14 +31,14 @@ npm run ai:health
 
 `npm run ai:brief-if-needed` first auto-detects a supported local agent CLI. The default behavior is: the agent that runs or installs the project should become the brief generator whenever its CLI can be detected.
 
-Built-in auto-detection supports:
+Auto-detection uses this order:
 
-- WorkBuddy environment and CLI: `workbuddy`
-- Claude Code CLI: `claude`
-- Codex CLI: `codex`
-- OpenClaw CLI: `openclaw`
+- Explicit override: `AI_RADAR_AGENT`.
+- Generic current-agent variables: `AI_RADAR_CURRENT_AGENT`, `CURRENT_AGENT`, `AGENT_NAME`, or `AGENT_APP`.
+- Timestamped install path, for example `<AgentName>/<YYYY-MM-DD-HH-MM-SS>/ai-radar-workflow`.
+- Built-in CLI presets: `workbuddy`, `claude`, `codex`, `openclaw`.
 
-If multiple supported agents are installed, set `AI_RADAR_AGENT=workbuddy`, `AI_RADAR_AGENT=claude`, `AI_RADAR_AGENT=codex`, or `AI_RADAR_AGENT=openclaw` in `.env.local` to choose one.
+If multiple agents are installed, set `AI_RADAR_AGENT=<agent-name>` in `.env.local` to choose one.
 
 If the current agent environment is detected but no callable CLI exists, the workflow will not silently switch to another installed agent. It prepares:
 

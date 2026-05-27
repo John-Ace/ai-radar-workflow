@@ -43,6 +43,14 @@ export function detectAgentCommand(options = {}) {
   if (preferred) {
     const preset = AGENT_PRESETS.find((entry) => entry.id === preferred);
     if (preset) return buildDetection(preset, commandExists, 'AI_RADAR_AGENT');
+    return buildGenericDetection(preferred, labelFromId(preferred), commandExists, 'AI_RADAR_AGENT');
+  }
+
+  const genericContext = detectGenericAgentContext(env, cwd);
+  if (genericContext) {
+    const preset = AGENT_PRESETS.find((entry) => entry.id === genericContext.id);
+    if (preset) return buildDetection(preset, commandExists, genericContext.source);
+    return buildGenericDetection(genericContext.id, genericContext.label, commandExists, genericContext.source);
   }
 
   const environmentMatches = AGENT_PRESETS
@@ -66,12 +74,57 @@ export function listAgentPresets() {
   return AGENT_PRESETS.map(({ id, label, binaries }) => ({ id, label, binaries: [...binaries] }));
 }
 
+function detectGenericAgentContext(env, cwd) {
+  const envName = firstNonEmpty([
+    env.AI_RADAR_CURRENT_AGENT,
+    env.CURRENT_AGENT,
+    env.AGENT_NAME,
+    env.AGENT_APP,
+  ]);
+  if (envName) {
+    const id = normalizeAgentId(envName);
+    return { id, label: labelFromId(id), source: 'current environment' };
+  }
+
+  const pathName = inferAgentNameFromPath(cwd);
+  if (pathName) {
+    const id = normalizeAgentId(pathName);
+    return { id, label: labelFromId(id), source: 'current environment' };
+  }
+
+  return null;
+}
+
+function inferAgentNameFromPath(cwd) {
+  const parts = normalizePath(cwd).split('/').filter(Boolean);
+  const repoIndex = parts.lastIndexOf('ai-radar-workflow');
+  if (repoIndex < 2) return '';
+
+  const parent = parts[repoIndex - 1];
+  const grandparent = parts[repoIndex - 2];
+  if (looksLikeRunFolder(parent) && isUsableAgentName(grandparent)) return grandparent;
+  if (isUsableAgentName(parent) && !isGenericFolder(parent)) return parent;
+  return '';
+}
+
 function buildDetection(preset, commandExists, source) {
   const runnable = preset.binaries.some((bin) => commandExists(bin));
   return {
     id: preset.id,
     label: preset.label,
     command: runnable ? preset.command : '',
+    source,
+    runnable,
+  };
+}
+
+function buildGenericDetection(id, label, commandExists, source) {
+  const binary = id;
+  const runnable = commandExists(binary);
+  return {
+    id,
+    label,
+    command: runnable ? `${binary} "$AI_RADAR_PROMPT"` : '',
     source,
     runnable,
   };
@@ -86,6 +139,30 @@ function scorePreset(preset, env, cwd) {
     if (cwd.includes(normalizePath(hint))) score += 100;
   }
   return score;
+}
+
+function firstNonEmpty(values) {
+  return values.find((value) => String(value ?? '').trim()) ?? '';
+}
+
+function looksLikeRunFolder(value) {
+  return /^\d{4}-\d{2}-\d{2}[-_]\d{2}[-_]\d{2}[-_]\d{2}$/.test(value);
+}
+
+function isUsableAgentName(value) {
+  return /^[A-Za-z][A-Za-z0-9_-]{1,40}$/.test(value);
+}
+
+function isGenericFolder(value) {
+  return ['Desktop', 'Documents', 'Downloads', 'Projects', 'Code', 'src', 'repo', 'repos'].includes(value);
+}
+
+function labelFromId(id) {
+  return String(id)
+    .split(/[-_]+/)
+    .filter(Boolean)
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(' ');
 }
 
 function normalizeAgentId(value) {

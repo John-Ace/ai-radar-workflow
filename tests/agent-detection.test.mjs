@@ -47,6 +47,43 @@ test('detectAgentCommand uses WorkBuddy automatically when its CLI exists', () =
   assert.equal(detected.runnable, true);
 });
 
+test('detectAgentCommand infers an unknown agent from a timestamped install path', () => {
+  const detected = detectAgentCommand({
+    env: { CLAUDE_CODE_ENTRYPOINT: '1' },
+    cwd: '/Users/john/Hermes/2026-05-27-21-22-37/ai-radar-workflow',
+    commandExists: (bin) => bin === 'claude',
+  });
+
+  assert.equal(detected.id, 'hermes');
+  assert.equal(detected.label, 'Hermes');
+  assert.equal(detected.source, 'current environment');
+  assert.equal(detected.runnable, false);
+});
+
+test('detectAgentCommand infers an unknown agent from generic environment variables', () => {
+  const detected = detectAgentCommand({
+    env: { AGENT_NAME: 'DeepAgent' },
+    commandExists: (bin) => bin === 'deepagent',
+  });
+
+  assert.equal(detected.id, 'deepagent');
+  assert.equal(detected.label, 'Deepagent');
+  assert.equal(detected.source, 'current environment');
+  assert.equal(detected.runnable, true);
+});
+
+test('detectAgentCommand accepts unknown AI_RADAR_AGENT values without hardcoding', () => {
+  const detected = detectAgentCommand({
+    env: { AI_RADAR_AGENT: 'hermes' },
+    commandExists: (bin) => bin === 'hermes',
+  });
+
+  assert.equal(detected.id, 'hermes');
+  assert.equal(detected.label, 'Hermes');
+  assert.equal(detected.source, 'AI_RADAR_AGENT');
+  assert.equal(detected.runnable, true);
+});
+
 test('detectAgentCommand treats AI_RADAR_AGENT=auto as automatic detection', () => {
   const detected = detectAgentCommand({
     env: { CODEX_SHELL: '1', AI_RADAR_AGENT: 'auto' },

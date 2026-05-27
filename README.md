@@ -18,7 +18,7 @@ It is a workflow package. OpenCLI does the collection and filtering; any capable
 - Node.js 20+
 - npm
 - OpenCLI available as `opencli`
-- A supported agent environment or CLI for automatic brief generation. Current built-ins: WorkBuddy, Claude Code, Codex, and OpenClaw.
+- An agent environment or CLI for automatic brief generation. Built-ins exist for WorkBuddy, Claude Code, Codex, and OpenClaw, and unknown agents can be inferred from environment variables or timestamped install paths.
 
 Some sources, such as Twitter/X, may depend on OpenCLI browser bridge login state. Run `opencli doctor` first when collection fails.
 
@@ -57,12 +57,12 @@ Generate the daily brief if needed. The workflow first auto-detects the current 
 npm run ai:brief-if-needed
 ```
 
-Built-in auto-detection currently supports:
+Auto-detection uses this order:
 
-- WorkBuddy environment and CLI: `workbuddy`
-- Claude Code CLI: `claude`
-- Codex CLI: `codex`
-- OpenClaw CLI: `openclaw`
+- Explicit override: `AI_RADAR_AGENT`.
+- Generic current-agent variables: `AI_RADAR_CURRENT_AGENT`, `CURRENT_AGENT`, `AGENT_NAME`, or `AGENT_APP`.
+- Timestamped install path, for example `<AgentName>/<YYYY-MM-DD-HH-MM-SS>/ai-radar-workflow`.
+- Built-in CLI presets: `workbuddy`, `claude`, `codex`, `openclaw`.
 
 If the current agent environment is detected but no callable CLI exists, the workflow will not silently switch to a different installed agent. It writes `agent-brief-prompt.md` and waits for the current agent to generate `ai-brief.md`.
 
