@@ -367,10 +367,11 @@ export function writeRunFiles(runDir, config, results, generatedAt = new Date())
     failures: failed.map((result) => ({ id: result.source.id, name: result.source.name, error: result.error })),
   };
   const archive = config.archive;
-  if (archive?.codexBriefDir) {
+  const briefDir = archive?.briefDir ?? archive?.codexBriefDir;
+  if (briefDir) {
     status.pendingBriefArchivePath = markdownArchivePath(
       process.cwd(),
-      archive.codexBriefDir,
+      briefDir,
       status.date,
       archive.briefFileSuffix ?? 'AI 日报'
     );

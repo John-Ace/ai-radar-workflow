@@ -15,7 +15,7 @@ const directories = [
   path.join('runs', 'ai-radar'),
   'logs',
   'opencli 数据爬取库',
-  'Codex AI日报库',
+  'AI 日报库',
 ];
 
 function main() {
@@ -28,7 +28,7 @@ function main() {
   checkCommand('node', ['--version'], 'Node.js');
   checkCommand('npm', ['--version'], 'npm');
   checkCommand('opencli', ['--version'], 'OpenCLI', false);
-  checkCodexCli();
+  checkAgentCommand();
 
   for (const dir of directories) ensureDir(path.join(root, dir));
   ensureLocalEnvExample();
@@ -55,27 +55,13 @@ function checkCommand(bin, commandArgs, label, required = true) {
   if (required && !ok) process.exitCode = 1;
 }
 
-function checkCodexCli() {
-  const codexCli = findCodexCli();
-  if (!codexCli) {
-    console.log('- Codex CLI: not found');
-    console.log('  Set CODEX_CLI=/path/to/codex or install Codex CLI before generating briefs.');
+function checkAgentCommand() {
+  if (!process.env.AGENT_BRIEF_COMMAND) {
+    console.log('- Agent brief command: not configured');
+    console.log('  Set AGENT_BRIEF_COMMAND in .env.local to let your preferred agent generate briefs automatically.');
     return;
   }
-  const result = spawnSync(codexCli, ['--version'], { encoding: 'utf8' });
-  const version = result.status === 0 ? (result.stdout || result.stderr).trim().split(/\r?\n/)[0] : 'found';
-  console.log(`- Codex CLI: ${version} (${codexCli})`);
-}
-
-function findCodexCli() {
-  if (process.env.CODEX_CLI && fs.existsSync(process.env.CODEX_CLI)) return process.env.CODEX_CLI;
-  const command = process.platform === 'win32' ? 'where' : 'which';
-  const result = spawnSync(command, ['codex'], { encoding: 'utf8' });
-  const found = result.stdout?.split(/\r?\n/).map((line) => line.trim()).find(Boolean);
-  if (result.status === 0 && found) return found;
-  const macAppCli = '/Applications/Codex.app/Contents/Resources/codex';
-  if (process.platform === 'darwin' && fs.existsSync(macAppCli)) return macAppCli;
-  return null;
+  console.log(`- Agent brief command: ${process.env.AGENT_BRIEF_COMMAND}`);
 }
 
 function ensureDir(dir) {
@@ -94,7 +80,7 @@ function ensureLocalEnvExample() {
     return;
   }
   if (!fs.existsSync(localEnv)) {
-    fs.writeFileSync(localEnv, '# Optional local overrides\n# CODEX_CLI=/absolute/path/to/codex\n', 'utf8');
+    fs.writeFileSync(localEnv, '# Optional local overrides\n# AGENT_BRIEF_COMMAND=your-agent-command-that-writes-$AI_RADAR_OUTPUT\n', 'utf8');
     console.log('- created: .env.local');
   }
 }

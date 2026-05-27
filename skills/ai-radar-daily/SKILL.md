@@ -1,11 +1,11 @@
 ---
 name: ai-radar-daily
-description: Install, configure, operate, and troubleshoot AI Radar Workflow, a local OpenCLI + Codex automation that collects AI information, selects 25 fresh daily candidates, generates a Chinese AI daily brief, archives outputs, and optionally installs cross-platform scheduled tasks. Use when the user asks to set up AI daily reports, OpenCLI AI crawling, Codex daily brief generation, AI Radar Workflow automation, scheduled AI news collection, or debug why an AI Radar daily brief did not run.
+description: Install, configure, operate, and troubleshoot AI Radar Workflow, a local OpenCLI + agent automation that collects AI information, selects 25 fresh daily candidates, generates a Chinese AI daily brief with the user's preferred agent, archives outputs, and optionally installs cross-platform scheduled tasks. Use when the user asks to set up AI daily reports, OpenCLI AI crawling, agent-based daily brief generation, AI Radar Workflow automation, scheduled AI news collection, or debug why an AI Radar daily brief did not run.
 ---
 
 # AI Radar Daily
 
-Use this Skill as the operations guide for AI Radar Workflow. The workflow scripts do the scheduled work; this Skill helps Codex install, configure, run, and debug it.
+Use this Skill as the operations guide for AI Radar Workflow. The workflow scripts do the scheduled work; this Skill helps Codex install, configure, run, and debug it. Codex is optional as a generator; the workflow can call any agent command through `AGENT_BRIEF_COMMAND`.
 
 ## Core Workflow
 
@@ -35,7 +35,7 @@ npm run install:automation
 ## Output Locations
 
 - Crawl archive: `opencli 数据爬取库/YYYY-MM-DD-数据爬取.md`
-- Codex brief archive: `Codex AI日报库/YYYY-MM-DD-AI 日报.md`
+- Agent brief archive: `AI 日报库/YYYY-MM-DD-AI 日报.md`
 - Traceable run files: `runs/ai-radar/<run-id>/`
 - Logs: `logs/`
 
@@ -55,9 +55,9 @@ npm run install:automation
 ## Troubleshooting
 
 - If collection fails, run `opencli doctor`.
-- If Codex generation is skipped, check whether today already has `Codex AI日报库/YYYY-MM-DD-AI 日报.md`.
+- If agent generation is skipped, check whether today already has `AI 日报库/YYYY-MM-DD-AI 日报.md`.
 - If candidates are below 25, do not generate a brief from older content; fix sources or rerun collection.
-- If Codex CLI is not found, set `CODEX_CLI=/absolute/path/to/codex`.
+- If automatic generation is not running, set `AGENT_BRIEF_COMMAND` to the command for the user's preferred agent.
 - If scheduled jobs do not run, inspect `logs/` and rerun `npm run install:automation -- --dry-run`.
 
 For platform automation details, read `references/automation.md`.

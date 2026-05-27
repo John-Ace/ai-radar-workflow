@@ -1,6 +1,6 @@
-# Codex 项目规则
+# Agent 项目规则
 
-这个项目的目标是把 OpenCLI 采集到的 AI 信息源，整理成稳定、易读、有洞察的 AI 日报。
+这个项目的目标是把 OpenCLI 采集到的 AI 信息源，交给任意 agent 整理成稳定、易读、有洞察的 AI 日报。
 
 ## 启动时优先检查
 
@@ -34,7 +34,7 @@ npm run ai:mark-brief-done -- runs/ai-radar/<run-id>
 采集层和分析层产物分开归档：
 
 - OpenCLI 采集层 Markdown 归档到：`opencli 数据爬取库/YYYY-MM-DD-数据爬取.md`
-- Codex 生成的 AI 日报归档到：`Codex AI日报库/YYYY-MM-DD-AI 日报.md`
+- Agent 生成的 AI 日报归档到：`AI 日报库/YYYY-MM-DD-AI 日报.md`
 
 `runs/ai-radar/<run-id>/` 仍然保留原始 JSON、筛选结果和可追溯运行文件。
 

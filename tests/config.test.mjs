@@ -14,7 +14,7 @@ test('AI radar config includes agent skill and MCP keywords for community and op
 
 test('AI radar config keeps archive directories for separated crawl and brief libraries', () => {
   assert.equal(config.archive.opencliDataDir, 'opencli 数据爬取库');
-  assert.equal(config.archive.codexBriefDir, 'Codex AI日报库');
+  assert.equal(config.archive.briefDir, 'AI 日报库');
   assert.equal(config.archive.dataFileSuffix, '数据爬取');
   assert.equal(config.archive.briefFileSuffix, 'AI 日报');
 });

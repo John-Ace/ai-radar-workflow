@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 const root = process.cwd();
 
 test('public package does not include private runtime directories', () => {
-  for (const dir of ['runs/ai-radar', 'logs', 'opencli 数据爬取库', 'Codex AI日报库']) {
+  for (const dir of ['runs/ai-radar', 'logs', 'opencli 数据爬取库', 'AI 日报库']) {
     assert.equal(fs.existsSync(path.join(root, dir)), false, `runtime directory should not be committed: ${dir}`);
   }
 });
@@ -28,6 +28,13 @@ test('package scripts expose setup and cross-platform automation entrypoints', (
   assert.equal(pkg.scripts.setup, 'node scripts/setup.mjs');
   assert.equal(pkg.scripts['install:automation'], 'node installers/install-automation.mjs');
   assert.equal(pkg.scripts['ai:wakeup'], 'node scripts/run-ai-radar-wakeup.mjs');
+  assert.equal(pkg.scripts['ai:brief-if-needed'], 'node scripts/run-agent-brief-if-needed.mjs');
+});
+
+test('public workflow uses a generic agent brief directory by default', () => {
+  const config = JSON.parse(fs.readFileSync(path.join(root, 'configs', 'ai-radar.json'), 'utf8'));
+  assert.equal(config.archive.briefDir, 'AI 日报库');
+  assert.equal(config.archive.codexBriefDir, undefined);
 });
 
 function listTextFiles(dir) {

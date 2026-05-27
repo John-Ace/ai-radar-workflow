@@ -27,7 +27,7 @@ function macos() {
   const launchDir = path.join(os.homedir(), 'Library', 'LaunchAgents');
   const jobs = [
     plist('com.ai-radar.workflow.fetch', ['scripts/fetch-ai-radar-if-needed.mjs'], [{ Hour: 7, Minute: 30 }], false, 'ai-radar-fetch'),
-    plist('com.ai-radar.workflow.brief', ['scripts/run-codex-brief-if-needed.mjs'], hours(9, 18, 20), false, 'ai-radar-brief'),
+    plist('com.ai-radar.workflow.brief', ['scripts/run-agent-brief-if-needed.mjs'], hours(9, 18, 20), false, 'ai-radar-brief'),
     plist('com.ai-radar.workflow.wakeup', ['scripts/run-ai-radar-wakeup.mjs'], null, true, 'ai-radar-wakeup'),
   ];
 

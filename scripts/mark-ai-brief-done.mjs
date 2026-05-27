@@ -21,10 +21,11 @@ const config = readConfig();
 status.analysisStatus = 'done';
 status.analysisCompletedAt = new Date().toISOString();
 status.briefPath = briefPath;
-if (config.archive?.codexBriefDir) {
+const briefDir = config.archive?.briefDir ?? config.archive?.codexBriefDir;
+if (briefDir) {
   status.briefArchivePath = writeMarkdownArchive(
     process.cwd(),
-    config.archive.codexBriefDir,
+    briefDir,
     status.date,
     config.archive.briefFileSuffix ?? 'AI 日报',
     briefMarkdown

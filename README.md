@@ -1,8 +1,8 @@
 # AI Radar Workflow
 
-AI Radar Workflow is a local automation workflow for collecting AI industry signals with OpenCLI, selecting fresh high-value items, and generating a structured Chinese daily brief with Codex.
+AI Radar Workflow is a local automation workflow for collecting AI industry signals with OpenCLI, selecting fresh high-value items, and generating a structured Chinese daily brief with your preferred agent.
 
-It is a workflow package, not only a Codex Skill. The workflow scripts do the scheduled work; the optional Skill helps Codex install, operate, and debug the workflow.
+It is a workflow package, not only a Skill. OpenCLI does the collection and filtering; any capable agent can read the prepared input and write the final daily brief.
 
 ## What It Does
 
@@ -10,7 +10,7 @@ It is a workflow package, not only a Codex Skill. The workflow scripts do the sc
 - Keeps raw run artifacts under `runs/ai-radar/`.
 - Archives the daily crawl report to `opencli 数据爬取库/YYYY-MM-DD-数据爬取.md`.
 - Selects exactly 25 fresh candidates from today or yesterday.
-- Generates a Chinese AI daily brief to `Codex AI日报库/YYYY-MM-DD-AI 日报.md`.
+- Generates a Chinese AI daily brief to `AI 日报库/YYYY-MM-DD-AI 日报.md`.
 - Supports optional local scheduling on macOS, Windows, and Linux.
 
 ## Requirements
@@ -18,7 +18,7 @@ It is a workflow package, not only a Codex Skill. The workflow scripts do the sc
 - Node.js 20+
 - npm
 - OpenCLI available as `opencli`
-- Codex CLI available as `codex`, or set `CODEX_CLI` in your shell or `.env.local`
+- Optional: an agent CLI command configured via `AGENT_BRIEF_COMMAND` for fully automatic brief generation.
 
 Some sources, such as Twitter/X, may depend on OpenCLI browser bridge login state. Run `opencli doctor` first when collection fails.
 
@@ -45,17 +45,29 @@ Collect data if needed:
 npm run ai:fetch-if-needed
 ```
 
-Prepare the latest pending run for Codex:
+Prepare the latest pending run for an agent:
 
 ```bash
 npm run ai:prepare-brief
 ```
 
-Generate the daily brief if needed:
+Generate the daily brief if needed. If `AGENT_BRIEF_COMMAND` is configured, the workflow calls that agent command. Otherwise it writes `agent-brief-prompt.md` and waits for any agent to generate `ai-brief.md`.
 
 ```bash
 npm run ai:brief-if-needed
 ```
+
+Agent commands receive these environment variables:
+
+- `AI_RADAR_PROMPT`
+- `AI_RADAR_RUN_DIR`
+- `AI_RADAR_ANALYSIS_INPUT`
+- `AI_RADAR_SELECTED_RESULTS`
+- `AI_RADAR_SELECTION_REPORT`
+- `AI_RADAR_TEMPLATE`
+- `AI_RADAR_OUTPUT`
+
+The agent command must write the final Markdown brief to `AI_RADAR_OUTPUT`.
 
 Run the login/wakeup catch-up flow:
 
@@ -132,13 +144,13 @@ These are intentionally ignored by Git:
 - `runs/`
 - `logs/`
 - `opencli 数据爬取库/`
-- `Codex AI日报库/`
+- `AI 日报库/`
 - `.env.local`
 
 Do not commit browser cookies, tokens, personal logs, or generated daily reports unless you intentionally create sanitized examples.
 
-## Codex Skill
+## Optional Codex Skill
 
-An optional Skill is included at `skills/ai-radar-daily/`. Install or copy it into your Codex skills folder if you want Codex to act as an installation and operations assistant for this workflow.
+An optional Codex Skill is included at `skills/ai-radar-daily/`. Install or copy it into your Codex skills folder if you want Codex to act as an installation and operations assistant for this workflow.
 
-The Skill is not the scheduler. The operating system scheduler runs the workflow after setup.
+The Skill is not the scheduler or the only supported generator. The operating system scheduler runs the workflow after setup, and the analysis layer can be handled by any agent that follows the generated prompt and writes `ai-brief.md`.

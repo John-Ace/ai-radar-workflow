@@ -16,7 +16,7 @@
   },
   "archive": {
     "opencliDataDir": "opencli 数据爬取库",
-    "codexBriefDir": "Codex AI日报库",
+    "briefDir": "AI 日报库",
     "dataFileSuffix": "数据爬取",
     "briefFileSuffix": "AI 日报"
   },

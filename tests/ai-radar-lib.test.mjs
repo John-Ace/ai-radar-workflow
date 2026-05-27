@@ -25,7 +25,7 @@ test('writeRunFiles exports archive markdown paths when configured', () => {
   const tempDir = fs.mkdtempSync(path.join(os.tmpdir(), 'ai-radar-archive-'));
   const runDir = path.join(tempDir, 'run');
   const opencliArchiveDir = path.join(tempDir, 'opencli-data');
-  const codexArchiveDir = path.join(tempDir, 'codex-briefs');
+  const briefArchiveDir = path.join(tempDir, 'agent-briefs');
   fs.mkdirSync(path.join(runDir, 'raw'), { recursive: true });
 
   const status = writeRunFiles(
@@ -34,7 +34,7 @@ test('writeRunFiles exports archive markdown paths when configured', () => {
       name: 'AI 信息雷达',
       archive: {
         opencliDataDir: opencliArchiveDir,
-        codexBriefDir: codexArchiveDir,
+        briefDir: briefArchiveDir,
         dataFileSuffix: '数据爬取',
         briefFileSuffix: 'AI 日报',
       },
@@ -44,7 +44,7 @@ test('writeRunFiles exports archive markdown paths when configured', () => {
   );
 
   assert.equal(status.openCliDataArchivePath, path.join(opencliArchiveDir, '2026-05-18-数据爬取.md'));
-  assert.equal(status.pendingBriefArchivePath, path.join(codexArchiveDir, '2026-05-18-AI 日报.md'));
+  assert.equal(status.pendingBriefArchivePath, path.join(briefArchiveDir, '2026-05-18-AI 日报.md'));
   assert.equal(fs.existsSync(status.openCliDataArchivePath), true);
 });
 
