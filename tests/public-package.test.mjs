@@ -37,6 +37,11 @@ test('public workflow uses a generic agent brief directory by default', () => {
   assert.equal(config.archive.codexBriefDir, undefined);
 });
 
+test('public package uses a generic agent guide instead of a bundled agent extension', () => {
+  assert.equal(fs.existsSync(path.join(root, 'skills')), false);
+  assert.equal(fs.existsSync(path.join(root, 'docs', 'agent-guide.md')), true);
+});
+
 function listTextFiles(dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

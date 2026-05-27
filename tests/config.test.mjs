@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 
 const config = JSON.parse(fs.readFileSync('configs/ai-radar.json', 'utf8'));
 
-test('AI radar config includes agent skill and MCP keywords for community and open-source sources', () => {
+test('AI radar config includes agent tooling and MCP keywords for community and open-source sources', () => {
   assertIncludes(config.officialKeywords, ['MCP', 'workflow', 'skills']);
   assertIncludes(source('twitter').keywords, ['Claude Code skills', 'MCP agent', 'agent workflow']);
   assertIncludes(source('hackernews').keywords, ['MCP agent', 'agent workflow']);

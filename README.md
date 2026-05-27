@@ -2,7 +2,7 @@
 
 AI Radar Workflow is a local automation workflow for collecting AI industry signals with OpenCLI, selecting fresh high-value items, and generating a structured Chinese daily brief with your preferred agent.
 
-It is a workflow package, not only a Skill. OpenCLI does the collection and filtering; any capable agent can read the prepared input and write the final daily brief.
+It is a workflow package. OpenCLI does the collection and filtering; any capable agent can read the prepared input and write the final daily brief.
 
 ## What It Does
 
@@ -149,8 +149,11 @@ These are intentionally ignored by Git:
 
 Do not commit browser cookies, tokens, personal logs, or generated daily reports unless you intentionally create sanitized examples.
 
-## Optional Codex Skill
+## Agent Guide
 
-An optional Codex Skill is included at `skills/ai-radar-daily/`. Install or copy it into your Codex skills folder if you want Codex to act as an installation and operations assistant for this workflow.
+This repository is designed for any agent that can read project files and run local commands. Start with:
 
-The Skill is not the scheduler or the only supported generator. The operating system scheduler runs the workflow after setup, and the analysis layer can be handled by any agent that follows the generated prompt and writes `ai-brief.md`.
+- `AGENTS.md` for project rules.
+- `docs/agent-guide.md` for setup, operation, and troubleshooting.
+
+The operating system scheduler runs the workflow after setup, and the analysis layer can be handled by any agent that follows the generated prompt and writes `ai-brief.md`.
