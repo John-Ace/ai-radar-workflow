@@ -33,13 +33,14 @@ npm run ai:health
 
 Built-in auto-detection supports:
 
+- WorkBuddy environment and CLI: `workbuddy`
 - Claude Code CLI: `claude`
 - Codex CLI: `codex`
 - OpenClaw CLI: `openclaw`
 
-If multiple supported agents are installed, set `AI_RADAR_AGENT=claude`, `AI_RADAR_AGENT=codex`, or `AI_RADAR_AGENT=openclaw` in `.env.local` to choose one.
+If multiple supported agents are installed, set `AI_RADAR_AGENT=workbuddy`, `AI_RADAR_AGENT=claude`, `AI_RADAR_AGENT=codex`, or `AI_RADAR_AGENT=openclaw` in `.env.local` to choose one.
 
-If no supported agent CLI is detected, the workflow prepares:
+If the current agent environment is detected but no callable CLI exists, the workflow will not silently switch to another installed agent. It prepares:
 
 - `runs/ai-radar/<run-id>/analysis-input.md`
 - `runs/ai-radar/<run-id>/selected-results.json`

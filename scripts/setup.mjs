@@ -61,7 +61,11 @@ function checkAgentCommand() {
     const detected = detectAgentCommand();
     if (detected) {
       console.log(`- Daily brief agent: ${detected.label} (${detected.source})`);
-      console.log('  The workflow will use this agent automatically unless the user overrides it.');
+      if (detected.runnable) {
+        console.log('  The workflow will use this agent automatically unless the user overrides it.');
+      } else {
+        console.log('  This agent was detected, but no callable CLI command was found for background generation.');
+      }
       return;
     }
     console.log('- Daily brief agent: not detected');

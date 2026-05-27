@@ -84,7 +84,11 @@ function main() {
     const detectedAgent = process.env.AGENT_BRIEF_COMMAND ? null : detectAgentCommand();
     const command = process.env.AGENT_BRIEF_COMMAND || detectedAgent?.command;
     if (!command) {
-      console.log('[agent-brief] prepared agent input, but no supported agent CLI was detected.');
+      if (detectedAgent && !detectedAgent.runnable) {
+        console.log(`[agent-brief] detected ${detectedAgent.label}, but no callable CLI command was found.`);
+      } else {
+        console.log('[agent-brief] prepared agent input, but no supported agent CLI was detected.');
+      }
       console.log(`[agent-brief] prompt: ${path.relative(root, promptPath)}`);
       console.log(`[agent-brief] expected output: ${path.relative(root, briefPath)}`);
       console.log('[agent-brief] Ask your current agent to follow the prompt file, or add a custom command for automatic generation.');
