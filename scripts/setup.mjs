@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
+import { detectAgentCommand } from './agent-detection.mjs';
 import { loadLocalEnv } from './env.mjs';
 
 const root = process.cwd();
@@ -57,11 +58,17 @@ function checkCommand(bin, commandArgs, label, required = true) {
 
 function checkAgentCommand() {
   if (!process.env.AGENT_BRIEF_COMMAND) {
-    console.log('- Agent brief command: not configured');
-    console.log('  Set AGENT_BRIEF_COMMAND in .env.local to let your preferred agent generate briefs automatically.');
+    const detected = detectAgentCommand();
+    if (detected) {
+      console.log(`- Daily brief agent: ${detected.label} (${detected.source})`);
+      console.log('  The workflow will use this agent automatically unless the user overrides it.');
+      return;
+    }
+    console.log('- Daily brief agent: not detected');
+    console.log('  Install a supported agent CLI, or add a custom command in .env.local.');
     return;
   }
-  console.log(`- Agent brief command: ${process.env.AGENT_BRIEF_COMMAND}`);
+  console.log(`- Daily brief agent: custom command (${process.env.AGENT_BRIEF_COMMAND})`);
 }
 
 function ensureDir(dir) {
@@ -80,7 +87,7 @@ function ensureLocalEnvExample() {
     return;
   }
   if (!fs.existsSync(localEnv)) {
-    fs.writeFileSync(localEnv, '# Optional local overrides\n# AGENT_BRIEF_COMMAND=your-agent-command-that-writes-$AI_RADAR_OUTPUT\n', 'utf8');
+    fs.writeFileSync(localEnv, '# Optional local overrides\n# AI_RADAR_AGENT=auto\n# AGENT_BRIEF_COMMAND=your-agent-command-that-writes-$AI_RADAR_OUTPUT\n', 'utf8');
     console.log('- created: .env.local');
   }
 }

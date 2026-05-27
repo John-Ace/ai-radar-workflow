@@ -6,7 +6,7 @@ This guide is for any agent operating AI Radar Workflow. The workflow is not tie
 
 - OpenCLI collects and normalizes source data.
 - The workflow filters the collected data into 25 fresh candidates.
-- The user's agent reads the generated input and writes the final daily brief.
+- The user's current or installed agent reads the generated input and writes the final daily brief.
 - The operating system scheduler runs the workflow after setup.
 
 ## First Checks
@@ -29,9 +29,17 @@ npm run ai:health
 
 ## Generating a Brief
 
-If `AGENT_BRIEF_COMMAND` is configured, `npm run ai:brief-if-needed` calls that command automatically.
+`npm run ai:brief-if-needed` first auto-detects a supported local agent CLI. The default behavior is: the agent that runs or installs the project should become the brief generator whenever its CLI can be detected.
 
-If it is not configured, the workflow prepares:
+Built-in auto-detection supports:
+
+- Claude Code CLI: `claude`
+- Codex CLI: `codex`
+- OpenClaw CLI: `openclaw`
+
+If multiple supported agents are installed, set `AI_RADAR_AGENT=claude`, `AI_RADAR_AGENT=codex`, or `AI_RADAR_AGENT=openclaw` in `.env.local` to choose one.
+
+If no supported agent CLI is detected, the workflow prepares:
 
 - `runs/ai-radar/<run-id>/analysis-input.md`
 - `runs/ai-radar/<run-id>/selected-results.json`
@@ -52,7 +60,7 @@ npm run ai:mark-brief-done -- runs/ai-radar/<run-id>
 
 ## Automatic Agent Command
 
-To let the workflow call an agent automatically, set this in `.env.local`:
+Most users do not need `AGENT_BRIEF_COMMAND`. Use it only for unsupported agents or custom wrappers:
 
 ```bash
 AGENT_BRIEF_COMMAND=your-agent-command-that-writes-$AI_RADAR_OUTPUT

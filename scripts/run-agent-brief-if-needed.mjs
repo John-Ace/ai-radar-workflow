@@ -4,6 +4,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { spawnSync } from 'node:child_process';
 import { markdownArchivePath } from './archive-paths.mjs';
+import { detectAgentCommand } from './agent-detection.mjs';
 import { formatLocalDate, loadJson } from './ai-radar-lib.mjs';
 import { loadLocalEnv } from './env.mjs';
 
@@ -80,16 +81,18 @@ function main() {
     const promptPath = path.join(runDir, 'agent-brief-prompt.md');
     fs.writeFileSync(promptPath, promptForRun(runDir), 'utf8');
 
-    const command = process.env.AGENT_BRIEF_COMMAND;
+    const detectedAgent = process.env.AGENT_BRIEF_COMMAND ? null : detectAgentCommand();
+    const command = process.env.AGENT_BRIEF_COMMAND || detectedAgent?.command;
     if (!command) {
-      console.log('[agent-brief] prepared agent input, but AGENT_BRIEF_COMMAND is not set.');
+      console.log('[agent-brief] prepared agent input, but no supported agent CLI was detected.');
       console.log(`[agent-brief] prompt: ${path.relative(root, promptPath)}`);
       console.log(`[agent-brief] expected output: ${path.relative(root, briefPath)}`);
-      console.log('[agent-brief] Configure AGENT_BRIEF_COMMAND to let your agent generate automatically, or ask your agent to follow the prompt file.');
+      console.log('[agent-brief] Ask your current agent to follow the prompt file, or add a custom command for automatic generation.');
       return;
     }
 
-    console.log(`[agent-brief] starting agent generation for ${path.relative(root, runDir)}`);
+    const agentLabel = process.env.AGENT_BRIEF_COMMAND ? 'custom agent command' : `${detectedAgent.label} (${detectedAgent.source})`;
+    console.log(`[agent-brief] starting ${agentLabel} for ${path.relative(root, runDir)}`);
     const result = spawnSync(command, {
       cwd: root,
       encoding: 'utf8',

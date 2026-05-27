@@ -18,7 +18,7 @@ It is a workflow package. OpenCLI does the collection and filtering; any capable
 - Node.js 20+
 - npm
 - OpenCLI available as `opencli`
-- Optional: an agent CLI command configured via `AGENT_BRIEF_COMMAND` for fully automatic brief generation.
+- A supported agent CLI for automatic brief generation. Current built-ins: Claude Code, Codex, and OpenClaw.
 
 Some sources, such as Twitter/X, may depend on OpenCLI browser bridge login state. Run `opencli doctor` first when collection fails.
 
@@ -51,11 +51,19 @@ Prepare the latest pending run for an agent:
 npm run ai:prepare-brief
 ```
 
-Generate the daily brief if needed. If `AGENT_BRIEF_COMMAND` is configured, the workflow calls that agent command. Otherwise it writes `agent-brief-prompt.md` and waits for any agent to generate `ai-brief.md`.
+Generate the daily brief if needed. The workflow first auto-detects the current or installed agent CLI and uses it to write `ai-brief.md`.
 
 ```bash
 npm run ai:brief-if-needed
 ```
+
+Built-in auto-detection currently supports:
+
+- Claude Code CLI: `claude`
+- Codex CLI: `codex`
+- OpenClaw CLI: `openclaw`
+
+If none of these are detected, the workflow writes `agent-brief-prompt.md` and waits for any agent to generate `ai-brief.md`.
 
 Agent commands receive these environment variables:
 
@@ -68,6 +76,8 @@ Agent commands receive these environment variables:
 - `AI_RADAR_OUTPUT`
 
 The agent command must write the final Markdown brief to `AI_RADAR_OUTPUT`.
+
+Advanced users can override the detected agent with `AI_RADAR_AGENT` or a custom `AGENT_BRIEF_COMMAND` in `.env.local`.
 
 Run the login/wakeup catch-up flow:
 
@@ -157,3 +167,5 @@ This repository is designed for any agent that can read project files and run lo
 - `docs/agent-guide.md` for setup, operation, and troubleshooting.
 
 The operating system scheduler runs the workflow after setup, and the analysis layer can be handled by any agent that follows the generated prompt and writes `ai-brief.md`.
+
+By default, the installer tries to use the agent that is running the setup or a supported agent CLI already installed on the machine. Configuration is only for users who want to force a different generator.
