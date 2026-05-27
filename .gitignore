@@ -1,0 +1,19 @@
+.DS_Store
+node_modules/
+.env
+.env.local
+
+# Runtime outputs
+runs/
+logs/
+opencli 数据爬取库/
+Codex AI日报库/
+
+# Local automation artifacts
+*.plist
+*.log
+*.err.log
+
+# Temporary files
+.cache/
+tmp/

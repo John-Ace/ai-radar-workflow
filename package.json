@@ -1,0 +1,20 @@
+{
+  "name": "ai-radar-workflow",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Cross-platform OpenCLI + Codex workflow for AI information collection and Chinese daily brief generation.",
+  "type": "module",
+  "scripts": {
+    "setup": "node scripts/setup.mjs",
+    "install:automation": "node installers/install-automation.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "ai:health": "node scripts/ai-health.mjs",
+    "ai:wakeup": "node scripts/run-ai-radar-wakeup.mjs",
+    "ai:fetch": "node scripts/fetch-ai-radar.mjs",
+    "ai:fetch-if-needed": "node scripts/fetch-ai-radar-if-needed.mjs",
+    "ai:filter": "node scripts/filter-ai-radar.mjs",
+    "ai:prepare-brief": "node scripts/prepare-ai-brief.mjs",
+    "ai:brief-if-needed": "node scripts/run-codex-brief-if-needed.mjs",
+    "ai:mark-brief-done": "node scripts/mark-ai-brief-done.mjs"
+  }
+}

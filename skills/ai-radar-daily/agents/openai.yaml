@@ -1,0 +1,3 @@
+display_name: AI Radar Daily
+short_description: Install and operate the OpenCLI + Codex AI daily brief workflow.
+default_prompt: Initialize AI Radar Workflow in this repository, check dependencies, run a dry-run setup, and explain the next manual test command.

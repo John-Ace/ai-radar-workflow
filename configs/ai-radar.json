@@ -1,0 +1,296 @@
+{
+  "name": "AI 信息雷达",
+  "outputDir": "runs/ai-radar",
+  "defaultLimit": 50,
+  "selection": {
+    "minItems": 25,
+    "targetItems": 25,
+    "maxItems": 25,
+    "maxPerSource": 5,
+    "maxPerGroup": 12,
+    "freshness": {
+      "maxPreviousCalendarDays": 1,
+      "requireDate": true,
+      "allowFutureHours": 6
+    }
+  },
+  "archive": {
+    "opencliDataDir": "opencli 数据爬取库",
+    "codexBriefDir": "Codex AI日报库",
+    "dataFileSuffix": "数据爬取",
+    "briefFileSuffix": "AI 日报"
+  },
+  "automation": {
+    "logPath": "logs/ai-radar-fetch.log",
+    "errLogPath": "logs/ai-radar-fetch.err.log"
+  },
+  "communityTrust": {
+    "trustedAuthors": {
+      "twitter": [
+        "OpenAI",
+        "AnthropicAI",
+        "claudeai",
+        "GoogleDeepMind",
+        "AIatMeta",
+        "HuggingFace",
+        "sama",
+        "gdb",
+        "karpathy",
+        "demishassabis",
+        "DarioAmodei"
+      ],
+      "reddit": [],
+      "hackernews": []
+    },
+    "trustedDomains": [
+      "openai.com",
+      "anthropic.com",
+      "deepmind.google",
+      "ai.meta.com",
+      "huggingface.co",
+      "github.com",
+      "arxiv.org"
+    ],
+    "lowValuePatterns": [
+      "bookmark",
+      "save this",
+      "worth than $500",
+      "worth $500",
+      "10 tools",
+      "make money",
+      "course",
+      "formation",
+      "signet",
+      "500$",
+      "replace one movie",
+      "monetize"
+    ]
+  },
+  "officialKeywords": ["AI", "agent", "model", "ChatGPT", "Claude", "Gemini", "Llama", "DeepSeek", "Qwen", "GLM", "Kimi", "MCP", "workflow", "skills"],
+  "sources": [
+    {
+      "id": "openai",
+      "name": "OpenAI",
+      "group": "海外官方源",
+      "type": "rss",
+      "url": "https://openai.com/news/rss.xml",
+      "limit": 50
+    },
+    {
+      "id": "google-ai-blog",
+      "name": "Google AI Blog",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://blog.google/technology/ai/rss/",
+      "limit": 50
+    },
+    {
+      "id": "microsoft-ai-blog",
+      "name": "Microsoft AI Blog",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://www.microsoft.com/en-us/ai/blog/feed/",
+      "limit": 50
+    },
+    {
+      "id": "huggingface-blog",
+      "name": "Hugging Face Blog",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://huggingface.co/blog/feed.xml",
+      "limit": 50
+    },
+    {
+      "id": "techcrunch-ai",
+      "name": "TechCrunch AI",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://techcrunch.com/category/artificial-intelligence/feed/",
+      "limit": 50
+    },
+    {
+      "id": "venturebeat-ai",
+      "name": "VentureBeat AI",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://venturebeat.com/category/ai/feed/",
+      "limit": 50
+    },
+    {
+      "id": "mit-tech-review",
+      "name": "MIT Technology Review",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://www.technologyreview.com/feed/",
+      "limit": 50
+    },
+    {
+      "id": "marktechpost-ai",
+      "name": "MarkTechPost AI",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://www.marktechpost.com/category/technology/artificial-intelligence/feed/",
+      "limit": 50
+    },
+    {
+      "id": "ai-news",
+      "name": "AI News",
+      "group": "高频 AI 资讯源",
+      "type": "rss",
+      "url": "https://www.artificialintelligence-news.com/feed/",
+      "limit": 50
+    },
+    {
+      "id": "anthropic-news",
+      "name": "Anthropic News",
+      "group": "海外官方源",
+      "type": "web-page",
+      "url": "https://www.anthropic.com/news",
+      "limit": 50
+    },
+    {
+      "id": "anthropic-research",
+      "name": "Anthropic Research",
+      "group": "海外官方源",
+      "type": "web-page",
+      "url": "https://www.anthropic.com/research",
+      "limit": 50
+    },
+    {
+      "id": "deepmind",
+      "name": "Google DeepMind",
+      "group": "海外官方源",
+      "type": "web-page",
+      "url": "https://deepmind.google/discover/blog/",
+      "limit": 50
+    },
+    {
+      "id": "meta-ai",
+      "name": "Meta AI",
+      "group": "海外官方源",
+      "type": "web-page",
+      "url": "https://ai.meta.com/blog/",
+      "limit": 50
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "group": "国内官方源",
+      "type": "web-page",
+      "url": "https://api-docs.deepseek.com/",
+      "limit": 50
+    },
+    {
+      "id": "qwen-blog",
+      "name": "Qwen Blog",
+      "group": "国内官方源",
+      "type": "web-page",
+      "url": "https://qwenlm.github.io/blog/",
+      "limit": 50
+    },
+    {
+      "id": "kimi",
+      "name": "Kimi / 月之暗面",
+      "group": "国内官方源",
+      "type": "web-page",
+      "url": "https://kimi.moonshot.cn/",
+      "limit": 50
+    },
+    {
+      "id": "minimax",
+      "name": "MiniMax",
+      "group": "国内官方源",
+      "type": "web-page",
+      "url": "https://www.minimax.io/",
+      "limit": 50
+    },
+    {
+      "id": "zhipu",
+      "name": "智谱 AI / GLM",
+      "group": "国内官方源",
+      "type": "web-page",
+      "url": "https://www.bigmodel.cn/",
+      "limit": 50
+    },
+    {
+      "id": "arxiv-llm",
+      "name": "arXiv LLM / Agent",
+      "group": "论文与研究",
+      "type": "opencli-keyword",
+      "enabled": false,
+      "keywords": ["large language model", "AI agent", "multimodal reasoning"],
+      "command": ["opencli", "arxiv", "search", "{keyword}", "--limit", "{limit}", "-f", "json"],
+      "limit": 8
+    },
+    {
+      "id": "huggingface-models",
+      "name": "Hugging Face Trending Models",
+      "group": "模型与工具",
+      "type": "opencli",
+      "command": ["opencli", "hf", "models", "--sort", "downloads", "--limit", "{limit}", "-f", "json"],
+      "limit": 50
+    },
+    {
+      "id": "huggingface-papers",
+      "name": "Hugging Face Top Papers",
+      "group": "论文与研究",
+      "type": "opencli",
+      "command": ["opencli", "hf", "top", "--limit", "{limit}", "-f", "json"],
+      "limit": 50
+    },
+    {
+      "id": "hackernews",
+      "name": "Hacker News",
+      "group": "海外社区热度",
+      "type": "opencli-keyword",
+      "keywords": ["AI", "LLM", "OpenAI", "Claude", "AI agent", "MCP agent", "agent workflow"],
+      "command": ["opencli", "hackernews", "search", "{keyword}", "--limit", "{limit}", "-f", "json"],
+      "limit": 50
+    },
+    {
+      "id": "twitter",
+      "name": "Twitter/X",
+      "group": "海外社区热度",
+      "type": "opencli-keyword",
+      "keywords": ["AI agent", "OpenAI", "Claude", "LLM", "Claude Code skills", "MCP agent", "agent workflow"],
+      "command": ["opencli", "twitter", "search", "{keyword}", "--limit", "{limit}", "-f", "json"],
+      "limit": 50
+    },
+    {
+      "id": "reddit",
+      "name": "Reddit",
+      "group": "海外社区热度",
+      "type": "opencli-keyword",
+      "enabled": false,
+      "keywords": ["AI", "LLM", "ChatGPT", "Claude", "Claude Code skills", "AI agent skill"],
+      "command": ["opencli", "reddit", "search", "{keyword}", "--sort", "new", "--time", "day", "--limit", "{limit}", "-f", "json"],
+      "limit": 20
+    },
+    {
+      "id": "github",
+      "name": "GitHub",
+      "group": "开源项目趋势",
+      "type": "github-search",
+      "keywords": ["ai agent", "llm", "rag", "multimodal", "agent skill", "mcp agent", "agent workflow"],
+      "limit": 50
+    },
+    {
+      "id": "devto-ai",
+      "name": "DEV.to AI",
+      "group": "开发者与产品源",
+      "type": "opencli-keyword",
+      "keywords": ["ai", "llm", "machinelearning", "openai"],
+      "command": ["opencli", "devto", "tag", "{keyword}", "--limit", "{limit}", "-f", "json"],
+      "limit": 50
+    },
+    {
+      "id": "producthunt-today",
+      "name": "Product Hunt Today",
+      "group": "开发者与产品源",
+      "type": "opencli",
+      "command": ["opencli", "producthunt", "today", "--limit", "{limit}", "-f", "json"],
+      "assumeCurrentDate": true,
+      "limit": 50
+    }
+  ]
+}
