@@ -46,11 +46,11 @@ npm run install:automation
 - Do not use older content to fill gaps.
 - Do not include image/media sections.
 - Each item must include:
-  - `发生了什么`: one bullet.
-  - `为什么重要`: two bullets; first explains importance, second explains trend.
-  - `我们该关注什么`: one bullet.
-  - `今日术语解释`: one plain-language explanation bullet.
-  - `原始来源`: source link bullet.
+  - `发生了什么`: one list item.
+  - `为什么重要`: two list items; first explains importance, second explains trend.
+  - `我们该关注什么`: one list item.
+  - `今日术语解释`: one plain-language explanation list item.
+  - `原始来源`: source link list item.
 
 ## Troubleshooting
 
