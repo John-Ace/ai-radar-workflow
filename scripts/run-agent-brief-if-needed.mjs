@@ -198,6 +198,7 @@ Hard requirements:
 - The daily brief must contain exactly 25 items.
 - Use only fresh candidates from today or yesterday by local calendar date.
 - Do not use older content to fill the quota.
+- Each item heading must be a Chinese summary headline. Do not copy the original English title, repository name, paper title, or product title as the heading. English company/product names may remain, but the heading must mainly be a Chinese judgment.
 - Keep only these sections for each item: 发生了什么, 为什么重要, 我们该关注什么, 今日术语解释, 原始来源.
 - Do not add image/media sections.
 - Do not write independent sections named 一句话总结, 背后反映的趋势, 对我们有什么用, 行动建议, or 选题建议.

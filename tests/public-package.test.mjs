@@ -42,6 +42,18 @@ test('public package uses a generic agent guide instead of a bundled agent exten
   assert.equal(fs.existsSync(path.join(root, 'docs', 'agent-guide.md')), true);
 });
 
+test('daily brief instructions require Chinese summary headlines', () => {
+  const template = fs.readFileSync(path.join(root, 'templates', 'ai-radar-daily.md'), 'utf8');
+  const prepare = fs.readFileSync(path.join(root, 'scripts', 'prepare-ai-brief.mjs'), 'utf8');
+  const runner = fs.readFileSync(path.join(root, 'scripts', 'run-agent-brief-if-needed.mjs'), 'utf8');
+
+  assert.match(template, /中文标题/);
+  assert.match(template, /不能直接复制英文原始标题/);
+  assert.match(prepare, /每条日报的大标题必须用中文重新概括/);
+  assert.match(prepare, /原始标题/);
+  assert.match(runner, /Chinese summary headline/);
+});
+
 function listTextFiles(dir) {
   const out = [];
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {

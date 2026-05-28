@@ -66,7 +66,7 @@ function buildAnalysisInput(status, all, selection) {
   lines.push('## 任务');
   lines.push('');
   lines.push('请基于下面 OpenCLI 采集结果，按照 `templates/ai-radar-daily.md` 生成 `ai-brief.md`。');
-  lines.push('要求：发生了什么用一个列表项写，凝练但相对完整地交代事件全貌；为什么重要必须用两个列表项分开写，第一条说明为什么重要，第二条说明反映了什么趋势；我们该关注什么用一个列表项写；今日术语解释要通俗、清晰，可以举例或打比方；不要写配图/媒体栏目。不要编造来源中没有的信息。');
+  lines.push('要求：每条日报的大标题必须用中文重新概括核心变化或价值，不能直接复制英文原始标题、仓库名、论文名或产品名；产品名/公司名可以保留英文，但标题主体必须是中文判断。发生了什么用一个列表项写，凝练但相对完整地交代事件全貌；为什么重要必须用两个列表项分开写，第一条说明为什么重要，第二条说明反映了什么趋势；我们该关注什么用一个列表项写；今日术语解释要通俗、清晰，可以举例或打比方；不要写配图/媒体栏目。不要编造来源中没有的信息。');
   lines.push('日报必须生成 25 条，且只能使用当天/前一天的新鲜候选；不要使用更早内容补齐。若精选候选不足 25 条，说明采集源不足，需要先扩充或修复采集源。原始数据只作为查证和补充背景。');
   lines.push('');
   lines.push('## 采集状态');
@@ -124,7 +124,7 @@ function formatSelectedEntry(entry) {
   const desc = entry.description || item.description || item.summary || item.tags || '';
   const needsConfirmation = item.type === 'homepage-snapshot' || item.type === 'candidate-link';
   return [
-    `- 标题：${title}`,
+    `- 原始标题：${title}`,
     url ? `  链接：${url}` : undefined,
     needsConfirmation ? '  可信度提示：需进一步确认（网页快照或候选链接，不等同于完整公告正文）' : undefined,
     bits.length ? `  元信息：${bits.join('；')}` : undefined,
